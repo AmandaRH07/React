@@ -1,4 +1,5 @@
-import Head from 'next/head'
+import Head from 'next/head';
+import {GetServerSideProps} from 'next';
 import React from 'react';
 import { ChallengeBox } from '../components/ChallengeBox';
 import { CompletedChallenges } from '../components/CompletedChallenges';
@@ -8,29 +9,55 @@ import { Profile } from '../components/Profile';
 import { CountdownProvider } from '../contexts/CountdownContext';
 
 import style from '../style/pages/Home.module.css'
+import { ChallengesProvider } from '../contexts/ChallengeContext';
 
-export default function Home() {
+interface HomeProps{
+  level: number;
+  currentExperience: number;
+  challengesCompleted: number;
+}
+
+export default function Home(props) {
+ 
   return (
-    <div className={style.container}>
-      <Head>
-        <title>Início | move.it</title>
-      </Head>
+    <ChallengesProvider 
+      level={props.level} 
+      currentExperience={props.currentExperience}
+      challengesCompleted={props.challengesCompleted} >
+      <div className={style.container}>
+        <Head>
+          <title>Início | move.it</title>
+        </Head>
 
-      <ExperienceBar/>
+        <ExperienceBar/>
 
-      <CountdownProvider>
-        <section>
-          <div>
-            <Profile/>
-            <CompletedChallenges/>
-            <Countdown/>
-          </div>
-          <div>
-            <ChallengeBox/>
-          </div>
-        </section>
-      </CountdownProvider>
-          
-    </div>
+        <CountdownProvider>
+          <section>
+            <div>
+              <Profile/>
+              <CompletedChallenges/>
+              <Countdown/>
+            </div>
+            <div>
+              <ChallengeBox/>
+            </div>
+          </section>
+        </CountdownProvider>
+            
+      </div>
+    </ChallengesProvider>
   )
+}
+
+// salvar os cookies
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const {level, currentExperience, challengesCompleted}= ctx.req.cookies;
+
+  return {
+    props: {
+      level: Number(level), 
+      currentExperience: Number(currentExperience),
+      challengesCompleted: Number(challengesCompleted),
+    }
+  }
 }
