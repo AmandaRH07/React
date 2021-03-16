@@ -1,0 +1,13 @@
+body{
+    background-color: #444;
+    color: #FFF;
+    text-align: center;
+
+    font-family: 'Oswald', 'Times New Roman', Times, serif;
+    font-weight: 300;
+    font-size: 1rem;
+}
+
+h1, h2{
+    font-weight: 300;
+}
