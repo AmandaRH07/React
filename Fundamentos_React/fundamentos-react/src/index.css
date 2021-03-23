@@ -6,6 +6,12 @@ body{
     font-family: 'Oswald', 'Times New Roman', Times, serif;
     font-weight: 300;
     font-size: 1rem;
+
+    background: #ff9966;  
+    background: -webkit-linear-gradient(to right, #ff5e62, #ff9966);  
+    background: linear-gradient(to right, #ff5e62, #ff9966);
+
+
 }
 
 h1, h2{
