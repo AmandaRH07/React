@@ -1,7 +1,12 @@
 import React, { Component } from 'react'
 
+import Display from './Display'
+import PassoForm from './PassoForm'
+import Buttons from './Buttons'
+
+
 export default class Contador extends Component {
-    
+
     state = {
         passo: this.props.passo || 1,
         valor: this.props.valor || 0
@@ -17,26 +22,30 @@ export default class Contador extends Component {
             valor: this.state.valor - this.state.passo
         })
     }
-    
+
+    mudarPasso = (novoPasso) => {
+        this.setState({
+            passo: novoPasso
+        })
+    }
+
     render() {
         return (
             <div>
                 <h2>Contador</h2>
-                <div>
-                <label for="passoInput">Passo: </label>
-                <input  
-                    id="passoInput" 
-                    type="number" 
-                    value={this.state.passo} 
-                    onChange={e => this.setState({passo: +e.target.value})}/>
-                </div>
-               
-                <h4>Valor: {this.state.valor}</h4>
 
-                <div>
-                    <button onClick={this.incrementar}>+</button>
-                    <button onClick={this.decrementar}>-</button>
-                </div>
+                <PassoForm
+                    passo={this.state.passo}
+                    onPassoChange={this.mudarPasso}>
+                </PassoForm>
+
+                <Display valor={this.state.valor}></Display>
+
+                <Buttons
+                    onIncrementar={this.incrementar}
+                    onDecrementar={this.decrementar}>
+                </Buttons>
+
             </div>
         );
     }
