@@ -1,13 +1,19 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router'
+
 import { format, parseISO } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 import { api } from '../../services/api';
 import { convertDurationToTimeString } from '../../utils/convertDurationToTimeString';
-import Image from 'next/image';
-import Link from 'next/link';
 
 import styles from './episode.module.scss';
+import { usePlayer } from '../../context/PlayerContext';
+import React from 'react';
+import head  from 'next/head';
+import { Head } from 'next/document';
+
 
 type Episode = {
     id: string;
@@ -26,6 +32,7 @@ type EpisodeProps = {
 };
 
 export default function Episode({ episode }: EpisodeProps) {
+    const { play } = usePlayer();
     const router = useRouter();
 
     if (router.isFallback) {
@@ -33,9 +40,14 @@ export default function Episode({ episode }: EpisodeProps) {
     }
     return (
         <div className={styles.episode}>
+
+            <div>
+                <title>{episode.title} | Podcastr</title>
+            </div>
+
             <div className={styles.thumbnailContainer}>
                 <Link href="/">
-                    <button type="button">
+                    <button type="button" onClick={() => play(episode)}>
                         <img src="/arrow-left.svg" alt="Voltar" />
                     </button>
                 </Link>
